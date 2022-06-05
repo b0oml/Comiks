@@ -2,7 +2,7 @@
 name = "comiks"
 version = "0.1.0"
 description = ""
-authors = ["@b0oml"]
+authors = ["b0oml"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
