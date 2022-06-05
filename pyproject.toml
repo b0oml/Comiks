@@ -3,6 +3,7 @@ name = "comiks"
 version = "0.1.0"
 description = "Retrieve authors informations from commits."
 authors = ["b0oml"]
+include = ["comiks/config.toml"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -10,6 +11,7 @@ tabulate = "^0.8.9"
 requests = "^2.27.1"
 fastDamerauLevenshtein = "^1.0.7"
 GitPython = "^3.1.27"
+toml = "^0.10.2"
 
 [tool.poetry.dev-dependencies]
 

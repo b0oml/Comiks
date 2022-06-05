@@ -1,0 +1,12 @@
+# Comiks config file
+
+# Threshold to highlight authors with a name/email similiar to the given
+# username in CLI output (should be between 0 and 1).
+# Set to 1 for exact match.
+score_threshold = 0.4
+
+# Providers configuration
+[provider]
+
+[provider.Github]
+enabled = true

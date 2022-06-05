@@ -4,30 +4,33 @@ from tabulate import tabulate
 
 from comiks.authors import get_authors, taint_authors
 from comiks.colors import DIM, GREEN, RST
+from comiks.config import load_config
 from comiks.provider import PROVIDERS
 
-SCORE_THRESOLD = 0.4
 
-
-def print_authors(authors):
+def print_authors(authors, score_threshold):
     table = []
 
     for author in authors:
-        if author.score >= SCORE_THRESOLD:
-            table.append((
-                GREEN + author.name + RST,
-                GREEN + author.email + RST,
-            ))
+        if author.score >= score_threshold:
+            table.append(
+                (
+                    GREEN + author.name + RST,
+                    GREEN + author.email + RST,
+                )
+            )
         else:
-            table.append((
-                author.name,
-                author.email,
-            ))
+            table.append(
+                (
+                    author.name,
+                    author.email,
+                )
+            )
 
     print(tabulate(table, (f'{DIM}Name{RST}', f'{DIM}Email{RST}'), tablefmt='fancy_grid'))
 
 
-def run_provider(provider, username):
+def run_provider(provider, username, score_threshold):
     print(f' 🔎 {provider.name} {DIM}({provider.url}){RST}')
 
     repos = provider.get_repositories(username)
@@ -36,17 +39,34 @@ def run_provider(provider, username):
         print(f'\n 📦 {repo.name}')
         authors = get_authors(repo.url)
         taint_authors(authors, username)
-        print_authors(authors)
+        print_authors(authors, score_threshold)
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Retrieve authors informations from commits.')
-    parser.add_argument('username', help='Username for which to scan commits.')
+    parser = argparse.ArgumentParser(
+        description='Retrieve authors informations from commits.'
+    )
+    parser.add_argument(
+        'username',
+        help='Username for which to scan commits.'
+    )
+    parser.add_argument(
+        '-c',
+        '--config',
+        help='Custom config file (default is ~/.config/comiks/config.toml).',
+        required=False,
+    )
     args = parser.parse_args()
+    # Load config
+    config = load_config(args.config)
+    provider_config = config.get('provider', {})
+    # Search authors for each provider
     for provider_class in PROVIDERS:
-        provider = provider_class()
+        provider = provider_class(
+            provider_config.get(provider_class.name, {})
+        )
         if provider.is_available():
-            run_provider(provider, args.username)
+            run_provider(provider, args.username, config.get('score_threshold', 0.4))
 
 
 if __name__ == '__main__':

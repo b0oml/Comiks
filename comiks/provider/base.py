@@ -4,10 +4,10 @@ from abc import ABC, abstractmethod
 class Provider(ABC):
 
     def __init__(self, config=None):
-        pass
+        self.config = config or {}
 
     def is_available(self):
-        return True
+        return self.config.get('enabled', True)
 
     @abstractmethod
     def get_repositories(self, username):
