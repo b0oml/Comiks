@@ -8,5 +8,5 @@ score_threshold = 0.4
 # Providers configuration
 [provider]
 
-[provider.Github]
+[provider.GitHub]
 enabled = true
