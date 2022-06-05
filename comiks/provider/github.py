@@ -6,7 +6,7 @@ from comiks.provider.base import Provider
 
 class GithubProvider(Provider):
 
-    name = 'Github'
+    name = 'GitHub'
     url = 'github.com'
     tags = ['github']
 
