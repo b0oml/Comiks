@@ -9,7 +9,7 @@ $ pip install git+https://github.com/b0oml/Comiks
 ## Usage
 
 ```shell
-$ poetry run comiks --help
+$ comiks --help
 usage: comiks [-h] username
 
 Retrieve authors informations from commits.
