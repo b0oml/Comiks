@@ -1,4 +1,4 @@
-import sys
+import argparse
 
 from tabulate import tabulate
 
@@ -40,12 +40,13 @@ def run_provider(provider, username):
 
 
 def main():
-    # TOOD: parse args
-    username = sys.argv[1]
+    parser = argparse.ArgumentParser(description='Retrieve authors informations from commits.')
+    parser.add_argument('username', help='Username for which to scan commits.')
+    args = parser.parse_args()
     for provider_class in PROVIDERS:
         provider = provider_class()
         if provider.is_available():
-            run_provider(provider, username)
+            run_provider(provider, args.username)
 
 
 if __name__ == '__main__':
