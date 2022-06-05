@@ -7,6 +7,7 @@ from comiks.provider.base import Provider
 class GithubProvider(Provider):
 
     name = 'Github'
+    url = 'github.com'
     tags = ['github']
 
     def get_repositories(self, username):

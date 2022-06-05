@@ -28,7 +28,7 @@ def print_authors(authors):
 
 
 def run_provider(provider, username):
-    print(f' 🔎 Github {DIM}(github.com){RST}')
+    print(f' 🔎 {provider.name} {DIM}({provider.url}){RST}')
 
     repos = provider.get_repositories(username)
 
