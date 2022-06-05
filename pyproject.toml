@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "comiks"
 version = "0.1.0"
-description = ""
+description = "Retrieve authors informations from commits."
 authors = ["b0oml"]
 
 [tool.poetry.dependencies]

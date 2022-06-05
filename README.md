@@ -1,5 +1,9 @@
 # Comiks
 
+Comiks is a command line tool to retrieve authors informations in the repository commits of a given user (names and emails).
+
+![Example](./doc/heading.png)
+
 ## Installation
 
 ```shell
