@@ -45,7 +45,8 @@ def run_provider(provider, username, highlight, score_threshold):
         num_repos += 1
         print(f'\n 📦 {repo.name}')
         authors = get_authors(repo.url)
-        taint_authors(authors, highlight)
+        for token in highlight.split(','):
+            taint_authors(authors, token)
         print_authors(authors, score_threshold)
 
     if num_repos == 0:
@@ -69,7 +70,7 @@ def main():
     parser.add_argument(
         '-l',
         '--highlight',
-        help='Highlight a string in output (default is username).',
+        help='Strings to highlight in output, separated by a comma (default is username).',
         required=False,
     )
     args = parser.parse_args()

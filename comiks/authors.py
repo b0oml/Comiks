@@ -33,4 +33,4 @@ def taint_authors(authors, token):
     for author in authors:
         score_name = damerauLevenshtein(author.name.lower(), lower_token)
         score_email = damerauLevenshtein(author.email.split('@')[0].lower(), lower_token)
-        author.score = max(score_name, score_email)
+        author.score = max(author.score, max(score_name, score_email))
