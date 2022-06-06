@@ -28,7 +28,7 @@ If you wan to create your own configuration file, you can take example on [this 
 
 ```shell
 $ comiks --help
-usage: comiks [-h] [-c CONFIG] username
+usage: comiks [-h] [-c CONFIG] [-l HIGHLIGHT] username
 
 Retrieve authors informations from commits.
 
@@ -39,4 +39,6 @@ optional arguments:
   -h, --help            show this help message and exit
   -c CONFIG, --config CONFIG
                         Custom config file (default is ~/.config/comiks/config.toml).
+  -l HIGHLIGHT, --highlight HIGHLIGHT
+                        Highlight a string in output (default is username).
 ```
