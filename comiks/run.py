@@ -33,7 +33,8 @@ def print_authors(authors, score_threshold):
 def run_provider(provider, username, score_threshold):
     print(f' 🔎 {provider.name} {DIM}({provider.url}){RST}')
 
-    repos = provider.get_repositories(username)
+    user_infos = provider.get_user_infos(username)
+    repos = provider.get_repositories(user_infos)
 
     for repo in repos:
         print(f'\n 📦 {repo.name}')

@@ -10,3 +10,8 @@ score_threshold = 0.4
 
 [provider.GitHub]
 enabled = true
+
+[provider.GitLab]
+enabled = false
+# GitLab provider need an access token with read_api access
+access_token = ""

@@ -14,7 +14,7 @@ $ pip install git+https://github.com/b0oml/Comiks
 
 The first time `comiks` runs, it will generate a config file `.config/comiks/config.toml` in your home directory. This will be the default configuration file used when using comiks.
 
-By default, only Github provider is enabled, other providers needs an API key. To enable and configure others providers with an API key, you can update the configuration file in your home directory.
+By default, only Github provider is enabled, other providers needs an API key/access token. To enable and configure others providers, you can update the configuration file in your home directory.
 
 It is also possible to load the configuration file from another path with option `-c, --config`.
 

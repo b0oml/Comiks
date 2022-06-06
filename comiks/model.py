@@ -1,4 +1,12 @@
 
+class UserInfos:
+
+    def __init__(self, username, display_name, identifier):
+        self.username = username
+        self.display_name = display_name
+        self.identifier = identifier
+
+
 class Author:
 
     def __init__(self, name, email):

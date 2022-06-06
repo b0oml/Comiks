@@ -10,5 +10,9 @@ class Provider(ABC):
         return self.config.get('enabled', True)
 
     @abstractmethod
-    def get_repositories(self, username):
+    def get_user_infos(self, username):
+        pass
+
+    @abstractmethod
+    def get_repositories(self, user_infos):
         pass
