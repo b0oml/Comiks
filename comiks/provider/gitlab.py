@@ -21,6 +21,10 @@ class GitlabProvider(Provider):
 
     def get_user_infos(self, username):
         resp = self.__get('/users', {'username': username})
+
+        if len(resp) == 0:
+            return None
+
         return UserInfos(
             username=resp[0]['username'],
             display_name=resp[0]['name'],

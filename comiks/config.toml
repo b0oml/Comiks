@@ -10,6 +10,9 @@ score_threshold = 0.4
 
 [provider.GitHub]
 enabled = true
+# Authenticated requests to Github API get a higher rate limit
+username = ""
+access_token = ""
 
 [provider.GitLab]
 enabled = false
