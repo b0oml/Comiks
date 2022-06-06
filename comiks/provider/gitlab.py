@@ -28,8 +28,13 @@ class GitlabProvider(Provider):
         )
 
     def get_repositories(self, user_infos):
-        resp = self.__get(f'/users/{user_infos.identifier}/projects')
-        return [
-            Repository(repo['name'], repo['http_url_to_repo'])
-            for repo in resp
-        ]
+        # Get events with action created
+        events = self.__get(f'/users/{user_infos.identifier}/events?action=created')
+        project_ids = [event['project_id'] for event in events]
+        # Get events with action joined
+        events = self.__get(f'/users/{user_infos.identifier}/events?action=joined')
+        project_ids.extend([event['project_id'] for event in events])
+        # Get name and URL for each project
+        for project_id in project_ids:
+            project = self.__get(f'/projects/{project_id}')
+            yield Repository(project['name_with_namespace'], project['http_url_to_repo'])
