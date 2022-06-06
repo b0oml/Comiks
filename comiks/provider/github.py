@@ -19,8 +19,6 @@ class GithubProvider(Provider):
         )
 
     def get_repositories(self, user_infos):
-        resp = requests.get(f'https://api.github.com/users/{user_infos.username}/repos').json()
-        return [
-            Repository(repo['name'], repo['html_url'])
-            for repo in resp
-        ]
+        repos = requests.get(f'https://api.github.com/users/{user_infos.username}/repos').json()
+        for repo in repos:
+            yield Repository(repo['name'], repo['html_url'])
