@@ -73,7 +73,14 @@ def main():
         help='Strings to highlight in output, separated by a comma (default is username).',
         required=False,
     )
+    parser.add_argument(
+        '-t',
+        '--tags',
+        help='Comma-sperated list of tags to select which providers to enable (default in config).',
+        required=False,
+    )
     args = parser.parse_args()
+    tags = args.tags.split(',') if args.tags else None
     # Load config
     config = load_config(args.config)
     provider_config = config.get('provider', {})
@@ -82,7 +89,7 @@ def main():
         provider = provider_class(
             provider_config.get(provider_class.name, {})
         )
-        if provider.is_available():
+        if provider.is_available(tags):
             run_provider(
                 provider,
                 args.username,

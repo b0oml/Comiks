@@ -28,7 +28,7 @@ If you wan to create your own configuration file, you can take example on [this 
 
 ```shell
 $ comiks --help
-usage: comiks [-h] [-c CONFIG] [-l HIGHLIGHT] username
+usage: comiks [-h] [-c CONFIG] [-l HIGHLIGHT] [-t TAGS] username
 
 Retrieve authors informations from commits.
 
@@ -40,5 +40,7 @@ optional arguments:
   -c CONFIG, --config CONFIG
                         Custom config file (default is ~/.config/comiks/config.toml).
   -l HIGHLIGHT, --highlight HIGHLIGHT
-                        Highlight a string in output (default is username).
+                        Strings to highlight in output, separated by a comma (default is username).
+  -t TAGS, --tags TAGS  Comma-sperated list of tags to select which providers to enable (default in
+                        config).
 ```
