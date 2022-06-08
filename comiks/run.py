@@ -74,9 +74,10 @@ def main():
         required=False,
     )
     parser.add_argument(
-        '-t',
-        '--tags',
-        help='Comma-sperated list of tags to select which providers to enable (default in config).',
+        '-p',
+        '--providers',
+        dest='tags',
+        help='Comma-sperated list of tags to select which providers to enable (default is in config).',
         required=False,
     )
     args = parser.parse_args()

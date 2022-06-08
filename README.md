@@ -28,7 +28,7 @@ If you wan to create your own configuration file, you can take example on [this 
 
 ```shell
 $ comiks --help
-usage: comiks [-h] [-c CONFIG] [-l HIGHLIGHT] [-t TAGS] username
+usage: comiks [-h] [-c CONFIG] [-l HIGHLIGHT] [-p TAGS] username
 
 Retrieve authors informations from commits.
 
@@ -41,7 +41,8 @@ optional arguments:
                         Custom config file (default is ~/.config/comiks/config.toml).
   -l HIGHLIGHT, --highlight HIGHLIGHT
                         Strings to highlight in output, separated by a comma (default is username).
-  -t TAGS, --tags TAGS  Comma-sperated list of tags to select which providers to enable (default in
+  -p TAGS, --providers TAGS
+                        Comma-sperated list of tags to select which providers to enable (default is in
                         config).
 ```
 
@@ -69,8 +70,8 @@ $ comiks -l john,doe,something b0oml
 You can enable/disable availables providers by updating config.toml. Now, let's imagine you have configured all the providers. But, for a given username, you only want to launch one of the providers. Rather than modifying the config each time this happens, you can select which provider to launch with tags.
 
 ```shell
-$ comiks -t github,bitbucket b0oml
-$ comiks -t gitlab b0oml
+$ comiks -p github,bitbucket b0oml
+$ comiks -p gitlab b0oml
 ```
 
 ## Providers
