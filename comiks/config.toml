@@ -11,10 +11,24 @@ score_threshold = 0.4
 [provider.GitHub]
 enabled = true
 # Authenticated requests to Github API get a higher rate limit
+# The username to authenticate is your account username
 username = ""
+# You need to create an access token
+# https://github.com/settings/tokens
 access_token = ""
 
 [provider.GitLab]
 enabled = false
-# GitLab provider need an access token with read_api access
+# GitLab provider needs an access token with read_api access
+# https://gitlab.com/-/profile/personal_access_tokens
 access_token = ""
+
+[provider.Bitbucket]
+enabled = false
+# The username to authenticate is your account username
+# https://bitbucket.org/account/settings/
+username = ""
+# You needs an app password
+# https://bitbucket.org/account/settings/app-passwords/
+# Give at least repositories read access permission
+app_password = ""
