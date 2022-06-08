@@ -44,3 +44,31 @@ optional arguments:
   -t TAGS, --tags TAGS  Comma-sperated list of tags to select which providers to enable (default in
                         config).
 ```
+
+### Examples
+
+Normal scan, use config in home directory.
+
+```shell
+$ comiks b0oml
+```
+
+Scan using another config.
+
+```shell
+$ comiks -c my_config.toml b0oml
+```
+
+In tables output, comiks try to highlight names and emails similar to the given username. You can highlight based on other strings than the username by giving a comma-separated list of strings.
+
+```shell
+$ comiks -l john b0oml
+$ comiks -l john,doe,something b0oml
+```
+
+You can enable/disable availables providers by updating config.toml. Now, let's imagine you have configured all the providers. But, for a given username, you only want to launch one of the providers. Rather than modifying the config each time this happens, you can select which provider to launch with tags.
+
+```shell
+$ comiks -t github,bitbucket b0oml
+$ comiks -t gitlab b0oml
+```
