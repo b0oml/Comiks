@@ -72,3 +72,13 @@ You can enable/disable availables providers by updating config.toml. Now, let's 
 $ comiks -t github,bitbucket b0oml
 $ comiks -t gitlab b0oml
 ```
+
+## Providers
+
+Below is listed all providers currently implemented.
+
+| Name      | Url                            | Authentication                                        | Enabled by default | Tags        |
+| --------- | ------------------------------ | ----------------------------------------------------- | ------------------ | ----------- |
+| GitHub    | [github.com](github.com)       | Not needed, but allows to get a higher API rate limit | yes                | `github`    |
+| GitLab    | [gitlab.com](gitlab.com)       | Needed                                                | no                 | `gitlab`    |
+| Bitbucket | [bitbucket.org](bitbucket.org) | Needed                                                | no                 | `bitbucket` |
