@@ -1,5 +1,6 @@
 import requests
 
+from comiks.exceptions import AuthException, NotFoundException
 from comiks.model import UserInfos, Repository
 from comiks.provider.base import Provider
 
@@ -11,19 +12,24 @@ class GitlabProvider(Provider):
     tags = ['gitlab']
 
     def __get(self, endpoint, params=None):
-        return requests.get(
+        resp = requests.get(
             f'https://gitlab.com/api/v4{endpoint}',
             params=params or {},
             headers={
                 'PRIVATE-TOKEN': self.config['access_token'],
             }
-        ).json()
+        )
+
+        if resp.status_code == 401:
+            raise AuthException()
+
+        return resp.json()
 
     def get_user_infos(self, username):
         resp = self.__get('/users', {'username': username})
 
         if len(resp) == 0:
-            return None
+            raise NotFoundException()
 
         return UserInfos(
             username=resp[0]['username'],

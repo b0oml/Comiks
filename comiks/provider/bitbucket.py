@@ -1,5 +1,6 @@
 import requests
 
+from comiks.exceptions import AuthException, NotFoundException
 from comiks.model import UserInfos, Repository
 from comiks.provider.base import Provider
 
@@ -11,20 +12,25 @@ class BitbucketProvider(Provider):
     tags = ['bitbucket']
 
     def __get(self, endpoint, params=None):
-        return requests.get(
+        resp = requests.get(
             f'https://bitbucket.org/api/2.0{endpoint}',
             params=params or {},
             auth=(
                 self.config.get('username'),
                 self.config.get('app_password'),
             ),
-        ).json()
+        )
+
+        if resp.status_code == 401:
+            raise AuthException()
+
+        return resp.json()
 
     def get_user_infos(self, username):
         resp = self.__get(f'/workspaces/{username}')
 
         if resp.get('type') == 'error':
-            return None
+            raise NotFoundException()
 
         return UserInfos(
             username=resp['slug'],

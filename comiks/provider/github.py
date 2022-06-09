@@ -1,5 +1,6 @@
 import requests
 
+from comiks.exceptions import AuthException, NotFoundException
 from comiks.model import UserInfos, Repository
 from comiks.provider.base import Provider
 
@@ -11,20 +12,25 @@ class GithubProvider(Provider):
     tags = ['github']
 
     def __get(self, endpoint, params=None):
-        return requests.get(
+        resp = requests.get(
             f'https://api.github.com{endpoint}',
             params=params or {},
             auth=(
                 self.config.get('username'),
                 self.config.get('access_token'),
             )
-        ).json()
+        )
+
+        if resp.status_code == 401:
+            raise AuthException()
+
+        return resp.json()
 
     def get_user_infos(self, username):
         resp = self.__get(f'/users/{username}')
 
         if resp.get('message') == 'Not Found':
-            return None
+            raise NotFoundException()
 
         return UserInfos(
             username=resp['login'],

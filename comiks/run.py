@@ -5,6 +5,7 @@ from tabulate import tabulate
 from comiks.authors import get_authors, taint_authors
 from comiks.colors import DIM, GREEN, RED, RST
 from comiks.config import load_config
+from comiks.exceptions import AuthException, NotFoundException
 from comiks.provider import PROVIDERS
 
 
@@ -33,8 +34,12 @@ def print_authors(authors, score_threshold):
 def run_provider(provider, username, highlight, score_threshold):
     print(f'\n 🔎 {provider.name} {DIM}({provider.url}){RST}')
 
-    user_infos = provider.get_user_infos(username)
-    if user_infos is None:
+    try:
+        user_infos = provider.get_user_infos(username)
+    except AuthException:
+        print(f'{RED} ⚡ Authentication error, please check your config{RST}')
+        return
+    except NotFoundException:
         print(f'{RED} ⚡ User not found on {provider.name}{RST}')
         return
 
