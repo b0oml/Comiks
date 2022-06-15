@@ -16,7 +16,7 @@ class Provider(ABC):
                 tag in self.tags
                 for tag in tags
             ])
-        return self.config.get('enabled', True)
+        return self.config.get('enabled', False)
 
     @abstractmethod
     def get_user_infos(self, username):
