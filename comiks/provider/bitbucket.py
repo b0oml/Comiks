@@ -1,3 +1,5 @@
+'''Bitbucket provider.'''
+
 import requests
 
 from comiks.exceptions import AuthException, NotFoundException
@@ -6,6 +8,7 @@ from comiks.provider.base import Provider
 
 
 class BitbucketProvider(Provider):
+    '''Get user infos and repositories from Bitbucket provider.'''
 
     name = 'Bitbucket'
     url = 'bitbucket.org'

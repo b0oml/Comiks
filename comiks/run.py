@@ -1,3 +1,5 @@
+'''Comiks CLI.'''
+
 import argparse
 
 from tabulate import tabulate
@@ -10,6 +12,7 @@ from comiks.provider import PROVIDERS
 
 
 def print_authors(authors, score_threshold):
+    '''Print a table listing authors name/email.'''
     table = []
 
     for author in authors:
@@ -32,6 +35,7 @@ def print_authors(authors, score_threshold):
 
 
 def run_provider(provider, username, highlight, score_threshold):
+    '''Run comiks for the given provider.'''
     print(f'\n 🔎 {provider.name} {DIM}({provider.url}){RST}')
 
     try:
@@ -59,6 +63,7 @@ def run_provider(provider, username, highlight, score_threshold):
 
 
 def main():
+    '''CLI function entrypoint.'''
     parser = argparse.ArgumentParser(
         description='Retrieve authors informations from commits.'
     )

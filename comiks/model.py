@@ -1,5 +1,9 @@
+'''Models to represent some entities.'''
+
+# pylint: disable=too-few-public-methods
 
 class UserInfos:
+    '''Represents the informations available for an user.'''
 
     def __init__(self, username, display_name, identifier):
         self.username = username
@@ -8,6 +12,7 @@ class UserInfos:
 
 
 class Author:
+    '''Represents a commit author/committer.'''
 
     def __init__(self, name, email):
         self.name = name
@@ -25,6 +30,7 @@ class Author:
 
 
 class Repository:
+    '''Represents a Git repository.'''
 
     def __init__(self, name, url):
         self.name = name

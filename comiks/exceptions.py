@@ -1,7 +1,8 @@
+'''Custom exceptions.'''
 
 class AuthException(Exception):
-    pass
+    '''Authentication error (commonly to an API).'''
 
 
 class NotFoundException(Exception):
-    pass
+    '''The asked resource has not been found.'''

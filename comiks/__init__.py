@@ -1,0 +1,1 @@
+'''Comiks module entrypoint'''

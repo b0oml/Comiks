@@ -1,3 +1,5 @@
+'''GitLab provider.'''
+
 import requests
 
 from comiks.exceptions import AuthException, NotFoundException
@@ -6,6 +8,7 @@ from comiks.provider.base import Provider
 
 
 class GitlabProvider(Provider):
+    '''Get user infos and repositories from GitLab provider.'''
 
     name = 'GitLab'
     url = 'gitlab.com'
