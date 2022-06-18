@@ -20,14 +20,15 @@ def print_authors(authors, score_threshold, show_branches=False):
         header.append(f'{DIM}Branches{RST}')
 
     for author in authors:
+        row = [author.name, author.email]
+        if show_branches:
+            row.append(", ".join(author.branches))
+
         if author.score >= score_threshold:
-            row = [f'{GREEN}{author.name}{RST}', f'{GREEN}{author.email}{RST}']
-            if show_branches:
-                row.append(f'{GREEN}{", ".join(author.branches)}{RST}')
-        else:
-            row = [author.name, author.email]
-            if show_branches:
-                row.append(", ".join(author.branches))
+            row = [
+                f'{GREEN}{entry}{RST}'
+                for entry in row
+            ]
 
         table.append(row)
 
