@@ -51,4 +51,8 @@ class BitbucketProvider(Provider):
                     for link in repo['links']['clone']
                     if link['name'] == 'https'
                 ][0]
-                yield Repository(repo_name, repo_url)
+                yield Repository(
+                    name=repo_name,
+                    url=repo_url,
+                    fork=repo.get('parent', False),
+                )

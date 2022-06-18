@@ -27,6 +27,7 @@ class Author:
 class Repository:
     '''Represents a Git repository.'''
 
-    def __init__(self, name, url):
+    def __init__(self, name, url, fork=False):
         self.name = name
         self.url = url
+        self.fork = fork

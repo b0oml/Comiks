@@ -44,4 +44,8 @@ class GithubProvider(Provider):
     def get_repositories(self, user_infos):
         repos = self.__get(f'/users/{user_infos.username}/repos')
         for repo in repos:
-            yield Repository(repo['name'], repo['html_url'])
+            yield Repository(
+                name=repo['name'],
+                url=repo['html_url'],
+                fork=repo['fork'],
+            )

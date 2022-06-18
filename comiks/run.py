@@ -53,7 +53,12 @@ def run_provider(provider, username, highlight, score_threshold, show_branches=F
 
     for repo in repos:
         num_repos += 1
-        print(f'\n 📦 {repo.name}')
+
+        display_name = repo.name
+        if repo.fork:
+            display_name += f' {DIM}(fork){RST}'
+        print(f'\n 📦 {display_name}')
+
         authors = get_authors(repo.url)
         for token in highlight.split(','):
             taint_authors(authors, token)
