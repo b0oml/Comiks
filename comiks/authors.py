@@ -13,7 +13,7 @@ def get_authors(repo_url):
     authors = set()
 
     with tempfile.TemporaryDirectory() as temp_dir:
-        repo = git.Repo.clone_from(repo_url, temp_dir.name)
+        repo = git.Repo.clone_from(repo_url, temp_dir)
         for ref in repo.heads:
             for commit in repo.iter_commits(ref.name):
                 authors.add(
