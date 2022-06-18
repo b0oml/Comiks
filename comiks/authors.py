@@ -8,22 +8,28 @@ from fastDamerauLevenshtein import damerauLevenshtein  # pylint: disable=no-name
 from comiks.model import Author
 
 
+def __add_author(authors, name, email, branch):
+    if (name, email) not in authors:
+        authors[(name, email)] = Author(name, email)
+
+    if branch not in authors[(name, email)].branches:
+        authors[(name, email)].branches.append(branch)
+
+
 def get_authors(repo_url):
     '''Get authors/commiters from each commits of a given repository.'''
-    authors = set()
+    authors = {}
 
     with tempfile.TemporaryDirectory() as temp_dir:
         repo = git.Repo.clone_from(repo_url, temp_dir)
         for ref in repo.remote().refs:
+            if ref.remote_head == 'HEAD':
+                continue
             for commit in repo.iter_commits(ref.name):
-                authors.add(
-                    Author(commit.author.name, commit.author.email)
-                )
-                authors.add(
-                    Author(commit.committer.name, commit.committer.email)
-                )
+                __add_author(authors, commit.author.name, commit.author.email, ref.remote_head)
+                __add_author(authors, commit.committer.name, commit.committer.email, ref.remote_head)
 
-    return authors
+    return authors.values()
 
 
 def taint_authors(authors, token):

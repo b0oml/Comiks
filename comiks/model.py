@@ -17,13 +17,8 @@ class Author:
     def __init__(self, name, email):
         self.name = name
         self.email = email
+        self.branches = []
         self.score = 0
-
-    def __hash__(self):
-        return hash((self.name, self.email))
-
-    def __eq__(self, other):
-        return self.name == other.name and self.email == other.email
 
     def __repr__(self):
         return f'{self.name} <{self.email}>'

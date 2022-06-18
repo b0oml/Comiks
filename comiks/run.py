@@ -11,30 +11,30 @@ from comiks.exceptions import AuthException, NotFoundException
 from comiks.provider import PROVIDERS
 
 
-def print_authors(authors, score_threshold):
+def print_authors(authors, score_threshold, show_branches=False):
     '''Print a table listing authors name/email.'''
     table = []
+    header = [f'{DIM}Name{RST}', f'{DIM}Email{RST}']
+
+    if show_branches:
+        header.append(f'{DIM}Branches{RST}')
 
     for author in authors:
         if author.score >= score_threshold:
-            table.append(
-                (
-                    GREEN + author.name + RST,
-                    GREEN + author.email + RST,
-                )
-            )
+            row = [f'{GREEN}{author.name}{RST}', f'{GREEN}{author.email}{RST}']
+            if show_branches:
+                row.append(f'{GREEN}{", ".join(author.branches)}{RST}')
         else:
-            table.append(
-                (
-                    author.name,
-                    author.email,
-                )
-            )
+            row = [author.name, author.email]
+            if show_branches:
+                row.append(", ".join(author.branches))
 
-    print(tabulate(table, (f'{DIM}Name{RST}', f'{DIM}Email{RST}'), tablefmt='fancy_grid'))
+        table.append(row)
+
+    print(tabulate(table, header, tablefmt='fancy_grid'))
 
 
-def run_provider(provider, username, highlight, score_threshold):
+def run_provider(provider, username, highlight, score_threshold, show_branches=False):
     '''Run comiks for the given provider.'''
     print(f'\n 🔎 {provider.name} {DIM}({provider.url}){RST}')
 
@@ -56,7 +56,7 @@ def run_provider(provider, username, highlight, score_threshold):
         authors = get_authors(repo.url)
         for token in highlight.split(','):
             taint_authors(authors, token)
-        print_authors(authors, score_threshold)
+        print_authors(authors, score_threshold, show_branches)
 
     if num_repos == 0:
         print(f'{RED} ⚡ No repository found on {provider.name}{RST}')
@@ -90,6 +90,13 @@ def main():
         help='Comma-sperated list of tags to select which providers to enable (default is in config).',
         required=False,
     )
+    parser.add_argument(
+        '-sb',
+        '--show-branches',
+        help='Show in which branches authors have been found.',
+        required=False,
+        action='store_true'
+    )
     args = parser.parse_args()
     tags = args.tags.split(',') if args.tags else None
     # Load config
@@ -105,7 +112,8 @@ def main():
                 provider,
                 args.username,
                 args.highlight or args.username,
-                config.get('score_threshold', 0.4)
+                config.get('score_threshold', 0.4),
+                args.show_branches
             )
     print()
 

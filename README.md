@@ -28,7 +28,7 @@ If you wan to create your own configuration file, you can take example on [this 
 
 ```shell
 $ comiks --help
-usage: comiks [-h] [-c CONFIG] [-l HIGHLIGHT] [-p TAGS] username
+usage: comiks [-h] [-c CONFIG] [-l HIGHLIGHT] [-p TAGS] [-sb] username
 
 Retrieve authors informations from commits.
 
@@ -44,6 +44,7 @@ optional arguments:
   -p TAGS, --providers TAGS
                         Comma-sperated list of tags to select which providers to enable (default is in
                         config).
+  -sb, --show-branches  Show in which branches authors have been found.
 ```
 
 ### Examples
