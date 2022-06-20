@@ -16,11 +16,11 @@ def __add_author(authors, name, email, branch):
         authors[(name, email)].branches.append(branch)
 
 
-def get_authors(repo_url):
+def get_authors(repo_url, wokrdir=None):
     '''Get authors/commiters from each commits of a given repository.'''
     authors = {}
 
-    with tempfile.TemporaryDirectory() as temp_dir:
+    with tempfile.TemporaryDirectory(dir=wokrdir) as temp_dir:
         repo = git.Repo.clone_from(repo_url, temp_dir)
         for ref in repo.remote().refs:
             if ref.remote_head == 'HEAD':

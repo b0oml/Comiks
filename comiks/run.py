@@ -1,6 +1,9 @@
 '''Comiks CLI.'''
 
 import argparse
+import signal
+import sys
+from tempfile import TemporaryDirectory
 
 from tabulate import tabulate
 
@@ -9,6 +12,8 @@ from comiks.colors import DIM, GREEN, RED, RST
 from comiks.config import load_config
 from comiks.exceptions import AuthException, NotFoundException
 from comiks.provider import PROVIDERS
+
+workdir = TemporaryDirectory()
 
 
 def print_authors(authors, score_threshold, show_branches=False):
@@ -59,7 +64,7 @@ def run_provider(provider, username, highlight, score_threshold, show_branches=F
             display_name += f' {DIM}(fork){RST}'
         print(f'\n 📦 {display_name}')
 
-        authors = get_authors(repo.url)
+        authors = get_authors(repo.url, workdir.name)
         for token in highlight.split(','):
             taint_authors(authors, token)
         print_authors(authors, score_threshold, show_branches)
@@ -70,6 +75,9 @@ def run_provider(provider, username, highlight, score_threshold, show_branches=F
 
 def main():
     '''CLI function entrypoint.'''
+    # Install signal handler for Ctrl+C
+    signal.signal(signal.SIGINT, signal_handler)
+    # Parse arguments
     parser = argparse.ArgumentParser(
         description='Retrieve authors informations from commits.'
     )
@@ -122,6 +130,12 @@ def main():
                 args.show_branches
             )
     print()
+
+
+def signal_handler(sig, frame):
+    print(f'\n{RED} ⚡ Leaving Comiks, see you soon 🤘{RST}\n')
+    workdir.cleanup()
+    sys.exit(0)
 
 
 if __name__ == '__main__':
