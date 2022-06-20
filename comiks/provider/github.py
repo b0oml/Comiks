@@ -42,8 +42,20 @@ class GithubProvider(Provider):
         )
 
     def get_repositories(self, user_infos):
+        # Get repositories listed in user account
         repos = self.__get(f'/users/{user_infos.username}/repos')
-        for repo in repos:
+        repos_map = {
+            repo['id']: repo
+            for repo in repos
+        }
+        # Find repositories the user has contributed to, but that
+        # are not listed in user account
+        commits = self.__get(f'/search/commits?q=author-name:{user_infos.username}')
+        for commit in commits['items']:
+            repo = commit['repository']
+            repos_map[repo['id']] = repo
+
+        for repo in repos_map.values():
             yield Repository(
                 name=repo['name'],
                 url=repo['html_url'],
