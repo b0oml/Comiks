@@ -14,19 +14,42 @@ class GitlabProvider(Provider):
     url = 'gitlab.com'
     tags = ['gitlab']
 
-    def __get(self, endpoint, params=None):
-        resp = requests.get(
-            f'https://gitlab.com/api/v4{endpoint}',
-            params=params or {},
-            headers={
-                'PRIVATE-TOKEN': self.config['access_token'],
-            }
-        )
+    def __get(self, endpoint, params=None, paginated=False):
+        results = []
+        params = params or {}
 
-        if resp.status_code == 401:
-            raise AuthException()
+        if paginated:
+            params['per_page'] = 100
 
-        return resp.json()
+        page = 1
+        while True:
+            if paginated:
+                params['page'] = page
+
+            resp = requests.get(
+                f'https://gitlab.com/api/v4{endpoint}',
+                params=params,
+                headers={
+                    'PRIVATE-TOKEN': self.config['access_token'],
+                }
+            )
+            if resp.status_code == 401:
+                raise AuthException()
+
+            data = resp.json()
+
+            if not paginated or not isinstance(data, list):
+                results = data
+                break
+
+            results.extend(data)
+
+            if len(data) < 100:
+                break
+
+            page += 1
+
+        return results
 
     def get_user_infos(self, username):
         resp = self.__get('/users', {'username': username})
@@ -42,10 +65,10 @@ class GitlabProvider(Provider):
 
     def get_repositories(self, user_infos):
         # Get events with action created
-        events = self.__get(f'/users/{user_infos.identifier}/events?action=created')
+        events = self.__get(f'/users/{user_infos.identifier}/events?action=created', paginated=True)
         project_ids = [event['project_id'] for event in events]
         # Get events with action joined
-        events = self.__get(f'/users/{user_infos.identifier}/events?action=joined')
+        events = self.__get(f'/users/{user_infos.identifier}/events?action=joined', paginated=True)
         project_ids.extend([event['project_id'] for event in events])
         # Get name and URL for each project
         for project_id in project_ids:

@@ -14,20 +14,40 @@ class BitbucketProvider(Provider):
     url = 'bitbucket.org'
     tags = ['bitbucket']
 
-    def __get(self, endpoint, params=None):
-        resp = requests.get(
-            f'https://bitbucket.org/api/2.0{endpoint}',
-            params=params or {},
-            auth=(
-                self.config.get('username'),
-                self.config.get('app_password'),
-            ),
-        )
+    def __get(self, endpoint, params=None, paginated=False):
+        results = []
+        params = params or {}
 
-        if resp.status_code == 401:
-            raise AuthException()
+        page = 1
+        while True:
+            if paginated:
+                params['page'] = page
 
-        return resp.json()
+            resp = requests.get(
+                f'https://bitbucket.org/api/2.0{endpoint}',
+                params=params,
+                auth=(
+                    self.config.get('username'),
+                    self.config.get('app_password'),
+                ),
+            )
+            if resp.status_code == 401:
+                raise AuthException()
+
+            data = resp.json()
+
+            if not paginated:
+                results = data
+                break
+
+            results.extend(data['values'])
+
+            if len(results) >= data['size']:
+                break
+
+            page += 1
+
+        return results
 
     def get_user_infos(self, username):
         resp = self.__get(f'/workspaces/{username}')
@@ -42,8 +62,8 @@ class BitbucketProvider(Provider):
         )
 
     def get_repositories(self, user_infos):
-        repos = self.__get(f'/repositories/{user_infos.username}')
-        for repo in repos.get('values', []):
+        repos = self.__get(f'/repositories/{user_infos.username}', paginated=True)
+        for repo in repos:
             if repo['type'] == 'repository':
                 repo_name = ' / '.join(repo['full_name'].split('/'))
                 repo_url = [
