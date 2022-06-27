@@ -50,6 +50,9 @@ class GitlabProvider(Provider):
         # Get name and URL for each project
         for project_id in project_ids:
             project = self.__get(f'/projects/{project_id}')
+            # Check that we have repository access
+            if project['repository_access_level'] != 'enabled':
+                continue
             yield Repository(
                 name=project['name_with_namespace'],
                 url=project['http_url_to_repo'],
