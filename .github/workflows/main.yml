@@ -1,0 +1,25 @@
+name: main-workflow
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  PYTHON_VERSION: 3.8.10
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Configure Poetry
+        run: poetry config pypi-token.testpypi ${{ secrets.PYPI_TOKEN }}
+      - name: Build and publish
+        run: poetry publish -r testpypi --build
