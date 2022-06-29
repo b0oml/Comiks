@@ -1,3 +1,15 @@
+<p align="center">
+    <a href="https://pypi.org/project/comiks/" alt="Latest version">
+      <img src="https://img.shields.io/pypi/v/comiks.svg" />
+    </a>
+    <a href="https://pypi.org/project/comiks/" alt="Python versions">
+      <img src="https://img.shields.io/pypi/pyversions/comiks.svg" />
+    </a>
+    <a href="https://github.com/b0oml/Comiks/actions/workflows/main.yml" alt="Latest build">
+      <img src="https://img.shields.io/github/workflow/status/b0oml/comiks/main-workflow" />
+    </a>
+</p>
+
 # Comiks
 
 Comiks is a command line tool to retrieve authors informations (names and emails) in the repositories commits of a given user.
@@ -5,6 +17,14 @@ Comiks is a command line tool to retrieve authors informations (names and emails
 ![Heading illustration](https://raw.githubusercontent.com/b0oml/Comiks/master/doc/heading.png)
 
 ## Installation
+
+You can install the latest tagged version from PyPI.
+
+```shell
+$ pip install comiks
+```
+
+Or install the latest version from GitHub (branch `master`).
 
 ```shell
 $ pip install git+https://github.com/b0oml/Comiks
