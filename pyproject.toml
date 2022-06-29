@@ -2,8 +2,11 @@
 name = "comiks"
 version = "0.1.0"
 description = "Retrieve authors informations from commits."
+readme = "README.md"
+repository = "https://github.com/b0oml/Comiks"
 authors = ["b0oml"]
 include = ["comiks/config.toml"]
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7.2"
